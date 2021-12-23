@@ -1,0 +1,48 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.810.11
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "photopcopy-server", "photopcopy-server\photopcopy-server.csproj", "{731058FF-CB44-4039-935A-925C24129AEF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8F1DB770-BCCD-47C8-8BE2-9A97FC01EEE4}"
+	ProjectSection(SolutionItems) = preProject
+		readme.md = readme.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{731058FF-CB44-4039-935A-925C24129AEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{731058FF-CB44-4039-935A-925C24129AEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{731058FF-CB44-4039-935A-925C24129AEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{731058FF-CB44-4039-935A-925C24129AEF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {23AA9851-8424-4C55-9655-35D8B15807B8}
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		Policies = $0
+		$0.TextStylePolicy = $1
+		$1.FileWidth = 80
+		$1.scope = text/x-csharp
+		$0.CSharpFormattingPolicy = $2
+		$2.scope = text/x-csharp
+		$0.TextStylePolicy = $3
+		$3.inheritsSet = null
+		$3.scope = text/x-json
+		$0.JSONFormattingPolicy = $4
+		$4.AutoStructureCompletion = True
+		$4.BracePositions = SemiExpanded
+		$4.FormatOnPaste = True
+		$4.scope = text/x-json
+		$0.StandardHeader = $5
+		$0.VersionControlPolicy = $6
+	EndGlobalSection
+EndGlobal
