@@ -57,8 +57,11 @@ namespace photopcopy_server
         public override async Task<List<Post>> GetPosts(GetPostsDetails details) {
             var list = new List<Post>();
 
-            list.Add(posts[0]);
-            list.Add(posts[1]);
+            int start = details.last==""?0:posts.FindIndex((Post obj) => obj.Id == details.last)+1;
+            for (int i = start; i<start+10; i++)
+			{
+                list.Add(posts[i]);
+			}
 
             return list;
         }
@@ -87,16 +90,29 @@ namespace photopcopy_server
 
         public LocalStorage()
 		{
+            string[] names = { "Alice", "Bob", "Charlie", "David", "Eve", "Frank" };
+            var random = new Random();
             for (int i = 0; i < 100; i++)
             {
+                //Author is supposed to be a user id but currently front end doesn't work that way so i will fix it later
+                string name = names[random.Next(names.Length)];
+                string target = names[random.Next(names.Length)];
+
+                string[] attachments = { };
                 posts.Add(new Post
                 {
-                    Author = "abcdef",
+                    Author = name,
                     IsLiked = false,
                     Likes = 0,
-                    Attachments = { },
-                    Content = "It's deeeep!! Yes. That's feels amazing. Harder, haaaaarder, oohhhhhhhh, I'M COMMMMMING",
+                    Attachments = attachments,
+                    Content = string.Format(
+@"Post #{0}
+I want to kiss {1} so bad...
+But everyone knows that will never happen.
+"
+                    , i, target==name?"myself":target),
                     Id = i.ToString(),
+                    Badges = Badges.None,
                 });
             }
         }

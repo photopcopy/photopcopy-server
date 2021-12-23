@@ -37,6 +37,15 @@ namespace photopcopy_server
             public string Content { get; set; }
         }
 
+        [Flags]
+        public enum Badges
+		{
+            None = 0,
+            Verified = 1,
+            Moderator = 2,
+            Owner = 4,
+        }
+
         public class Post
 		{
             public string Id { get; set; } //postid
@@ -45,6 +54,7 @@ namespace photopcopy_server
             public string Content { get; set; }
             public bool IsLiked { get; set; } // this will be false for users that aren't signed in
             public int Likes { get; set; }
+            public Badges Badges { get; set; }
             // public Comment[] comments { get; set; }
 
         }
