@@ -13,19 +13,42 @@ namespace photopcopy_server.Controllers
     {
         public class GetPostResult
 		{
-            public List<Storage.Post> posts { get; set;  }
+            public List<Storage.Post> Posts { get; set;  }
+            public Dictionary<string, Storage.User> Users { get; set; }
         }
 
         [HttpGet]
         public async Task<GetPostResult> GetPosts()
         {
+
+            var posts = await Storage.instance.GetPosts(new Storage.GetPostsDetails
+            {
+                Last = Request.Query["last"].ToString()
+            });
+
+            var userids = new Dictionary<string, Storage.User>();
+
+            foreach (Storage.Post post in posts)
+			{
+                if (!userids.ContainsKey(post.Author))
+				{
+                    userids[post.Author] = await Storage.instance.GetUser(post.Author);
+				}
+                foreach (Storage.Comment comment in post.Comments)
+				{
+                    if (!userids.ContainsKey(comment.Author))
+					{
+                        userids[comment.Author] = await Storage.instance.GetUser(comment.Author);
+					}
+				}
+			}
+
             return new GetPostResult
             {
-                posts = await Storage.instance.GetPosts(new Storage.GetPostsDetails
-                {
-                    last = Request.Query["last"].ToString()
-                })
+                Users = userids,
+                Posts = posts,
             };
+            
         }
     }
 }

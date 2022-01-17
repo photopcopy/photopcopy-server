@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
+
 namespace photopcopy_server
 {
     public class Startup
@@ -26,6 +27,7 @@ namespace photopcopy_server
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            // services.AddSignalR(); this is a maybe
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,6 +43,7 @@ namespace photopcopy_server
             app.UseRouting();
 
             app.UseAuthorization();
+
 
             //https://docs.microsoft.com/en-us/aspnet/core/fundamentals/static-files?view=aspnetcore-6.0
             //https://coderedirect.com/questions/347089/setting-index-html-as-default-page-in-asp-net-core

@@ -1,0 +1,2 @@
+#!/bin/bash
+dotnet run --project /Users/infin/Projects/photopcopy-server/photopcopy-server
