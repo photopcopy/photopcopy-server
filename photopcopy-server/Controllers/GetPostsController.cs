@@ -13,6 +13,7 @@ namespace photopcopy_server.Controllers
     {
         public class GetPostResult
 		{
+            public Dictionary<string, Storage.Comment> Comments { get; set; }
             public List<Storage.Post> Posts { get; set;  }
             public Dictionary<string, Storage.User> Users { get; set; }
         }
@@ -27,24 +28,27 @@ namespace photopcopy_server.Controllers
             });
 
             var userids = new Dictionary<string, Storage.User>();
-
+            var comments = new Dictionary<string, Storage.Comment>();
             foreach (Storage.Post post in posts)
 			{
                 if (!userids.ContainsKey(post.Author))
-				{
+                {
                     userids[post.Author] = await Storage.instance.GetUser(post.Author);
-				}
-                foreach (Storage.Comment comment in post.Comments)
-				{
+                }
+                foreach (Storage.Comment comment in await Storage.instance.GetComments(post.Comments.ToArray()))
+                {
                     if (!userids.ContainsKey(comment.Author))
-					{
+                    {
                         userids[comment.Author] = await Storage.instance.GetUser(comment.Author);
-					}
-				}
-			}
+                    }
+                    comments[comment.Id] = comment;
+                };
+            }
+
 
             return new GetPostResult
             {
+                Comments = comments,
                 Users = userids,
                 Posts = posts,
             };

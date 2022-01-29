@@ -9,8 +9,14 @@
   <ItemGroup>
     <None Remove="public\" />
     <None Remove="Storage\" />
+    <None Remove="Hubby\" />
+    <None Remove="Microsoft.AspNetCore.SignalR" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Storage\" />
+    <Folder Include="Hubby\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
   </ItemGroup>
 </Project>

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Security.Cryptography;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using System.Linq; 
 
 namespace photopcopy_server
 {
@@ -50,6 +51,16 @@ namespace photopcopy_server
 			return (++counter).ToString();
 		}
 
+		public override Task<Post> GetPost(string postid)
+		{
+			return Task.FromResult(posts[postid]);
+		}
+
+		public override Task<Comment[]> GetComments(string[] commentids)
+		{
+			return Task.FromResult(commentids.Select(commentid => comments[commentid]).ToArray());
+		}
+
 
 		public override Task<User> GetUser(string userid)
 		{
@@ -74,14 +85,18 @@ namespace photopcopy_server
 			throw new NotImplementedException();
 		}
 
-		public override void CreateComment(CreateCommentDetails details)
+		public override Task<Comment> CreateComment(CreateCommentDetails details)
 		{
-			List<Comment> list = posts[details.Post].Comments;
-			if (list != null)
+			Post post = posts[details.Post];
+			if (post != null)
 			{
 				var comment = new Comment { Author = details.User, Content = details.Content, CreatedAt = DateTime.Now, Id = GetUniqueId() };
-				list.Add(comment);
 				comments.Add(comment.Id, comment);
+				post.Comments.Add(comment.Id);
+				return Task.FromResult(comment);
+			} else
+			{
+				return Task.FromException<Comment>(new Exception("Post not found"));
 			}
 		}
 
@@ -92,6 +107,10 @@ namespace photopcopy_server
 
 		public override Task<List<Post>> GetPosts(GetPostsDetails details)
 		{
+
+
+			Console.WriteLine();
+
 			List<Post> list = new();
 
 			int start = details.Last == "" ? 0 : postsList.FindIndex((Post obj) => obj.Id == details.Last) + 1;
@@ -154,15 +173,18 @@ namespace photopcopy_server
 				string target = keyList[random.Next(keyList.Count)];
 				string author = keyList[random.Next(keyList.Count)];
 
-				List<Comment> comments = new();
+				List<string> commentids = new();
+				
 				if (male.IndexOf(users[author].Username)!=-1 && male.IndexOf(users[target].Username) !=-1 && author!=target)
 				{
-					comments.Add(new Comment
+					var comment = new Comment
 					{
-						Id=GetUniqueId(),
+						Id = GetUniqueId(),
 						Author = target,
-						Content ="That's gay af bro",
-					});
+						Content = "That's gay af bro",
+					};
+					comments[comment.Id] = comment;
+					commentids.Add(comment.Id);
 				}
 
 
@@ -173,6 +195,7 @@ namespace photopcopy_server
 					Author = author,
 					IsLiked = false,
 					Likes = 0,
+					Comments=commentids,
 					Attachments = attachments,
 					Content = string.Format(
 @"Post #{0}
@@ -182,7 +205,6 @@ But everyone knows that will never happen.
 					, i, target == author ? "myself" : users[target].Username),
 					Id = i.ToString(),
 					Badges = Badges.None,
-					Comments = comments,
 				};
 				postsList.Add(post);
 				posts.Add(post.Id, post);

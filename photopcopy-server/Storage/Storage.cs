@@ -45,11 +45,18 @@ namespace photopcopy_server
 		}
 
         public class Comment
-		{
+        {
             public DateTime CreatedAt;
             public string Id { get; set; } //commentid
             public string Author { get; set; } //userid
             public string Content { get; set; }
+		}
+
+        public class CommentWithRefs
+        {
+            public string Post { get; set; }
+            public User User { get; set; }
+            public Comment Comment { get; set; }
 		}
 
         [Flags]
@@ -70,8 +77,7 @@ namespace photopcopy_server
             public bool IsLiked { get; set; } // this will be false for users that aren't signed in
             public int Likes { get; set; }
             public Badges Badges { get; set; }
-            public List<Comment> Comments { get; set; }
-
+            public List<string> Comments { get; set; }
         }
 
         public class User
@@ -89,7 +95,11 @@ namespace photopcopy_server
 
         public abstract void LikePost(LikePostDetails details);
 
-        public abstract void CreateComment(CreateCommentDetails details);
+        public abstract Task<Post> GetPost(string postid);
+
+        public abstract Task<Comment> CreateComment(CreateCommentDetails details);
+
+        public abstract Task<Comment[]> GetComments(string[] commentids);
 
         public abstract void CreatePost(CreatePostDetails details);
 

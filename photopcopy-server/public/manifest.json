@@ -1,0 +1,15 @@
+{
+    "name": "Photopcopy",
+    "short_name": "Photopcopy",
+    "start_url": ".",
+    "background_color": "#151617",
+    "description": "Photop but better.",
+    "orientation": "portrait",
+    "display": "standalone",
+    "icons": [
+
+    ],	
+    "screenshots": [],
+    "shortcuts": [],
+    "scope": "/"
+}
